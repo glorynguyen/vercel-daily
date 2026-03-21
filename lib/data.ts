@@ -1,4 +1,4 @@
-import { cacheLife } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 const API_BASE_URL = process.env.API_BASE_URL;
 const X_VERCEL_PROTECTION_BYPASS = process.env.X_VERCEL_PROTECTION_BYPASS ?? "";
@@ -17,6 +17,7 @@ const requestInit: RequestInit = {
 export async function getArticles({ featured, trending }: ArticleQueryParams = {}) {
     "use cache"
     cacheLife("days");
+    cacheTag("articles-list")
     const params = new URLSearchParams();
     if (featured) {
         params.append("featured", "true");
@@ -34,6 +35,7 @@ export async function getArticles({ featured, trending }: ArticleQueryParams = {
 export async function getArticle(id: string) {
     "use cache"
     cacheLife("hours");
+    cacheTag(`article-${id}`)
     if (!id) {
         return null;
     }

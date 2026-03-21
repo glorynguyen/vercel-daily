@@ -1,6 +1,9 @@
-import { getArticles } from "@/app/lib/data";
+import { getArticles } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import { ListFeaturedArticleSkeleton } from "./skeletons";
+import { formatDate } from "@/lib/utils";
 
 interface Article {
   id: string;
@@ -17,11 +20,20 @@ interface FeaturedArticlesProps {
   viewAllHref?: string;
 }
 
+async function ListFeaturedArticle() {
+  const data = await getArticles({ featured: true });
+  const articles = data.data;
+  return <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {articles.map((article: Article) => (
+      <ArticleCard key={article.id} article={article} />
+    ))}
+  </div>
+}
+
 export default async function FeaturedArticles({
   viewAllHref = "/search",
 }: FeaturedArticlesProps) {
-  const data = await getArticles({ featured: true });
-  const articles = data.data;
+  
   return (
     <section className="px-4 py-12 sm:px-6 sm:py-16 md:px-8 lg:py-20">
       <div className="mx-auto max-w-7xl">
@@ -41,12 +53,9 @@ export default async function FeaturedArticles({
             View all
           </Link>
         </div>
-
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article: Article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
+        <Suspense fallback={<ListFeaturedArticleSkeleton />}>
+          <ListFeaturedArticle/>
+        </Suspense>
       </div>
     </section>
   );
@@ -88,13 +97,4 @@ function ArticleCard({ article }: { article: Article }) {
       </p>
     </article>
   );
-}
-
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }
