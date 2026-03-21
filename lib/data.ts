@@ -32,6 +32,17 @@ export async function getArticles({ featured, trending }: ArticleQueryParams = {
     return await res.json();
 }
 
+export async function getBreakingNews() {
+    "use cache"
+    cacheLife("days");
+    cacheTag("breaking-news")
+    const res = await fetch(`${API_BASE_URL}/breaking-news`, requestInit);
+    if (!res.ok) {
+        throw new Error(`Failed to fetch breaking news: ${res.status}`);
+    }
+    return await res.json();
+}
+
 export async function getArticle(id: string) {
     "use cache"
     cacheLife("hours");
