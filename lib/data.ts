@@ -43,6 +43,24 @@ export async function getBreakingNews() {
     return await res.json();
 }
 
+export async function searchArticles({ query, category }: { query?: string, category?: string}) {
+    "use cache"
+    cacheLife("hours");
+    cacheTag("articles-search")
+    const params = new URLSearchParams();
+    if (query) {
+        params.append("search", query);
+    }
+    if (category) {
+        params.append("category", category);
+    }
+    const res = await fetch(`${API_BASE_URL}/articles?${params}`, requestInit);
+    if (!res.ok) {
+        throw new Error(`Failed to search articles: ${res.status}`);
+    }
+    return await res.json();
+}
+
 export async function getArticle(id: string) {
     "use cache"
     cacheLife("hours");
@@ -53,6 +71,17 @@ export async function getArticle(id: string) {
     const res = await fetch(`${API_BASE_URL}/articles/${id}`, requestInit);
     if (!res.ok) {
         throw new Error(`Failed to fetch article with id: ${id}; Response status: ${res.status}`);
+    }
+    return await res.json();
+}
+
+export async function getCategories() {
+  "use cache"
+    cacheLife("days");
+    cacheTag("categories-list")
+    const res = await fetch(`${API_BASE_URL}/categories`, requestInit);
+    if (!res.ok) {
+        throw new Error(`Failed to fetch articles: ${res.status}`);
     }
     return await res.json();
 }
