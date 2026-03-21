@@ -1,18 +1,12 @@
 import ArticleContent from "@/components/ArticleContent";
 import { ArticleDataSkeleton } from "@/components/skeletons";
+import TrendingArticles from "@/components/TrendingArticles";
 import { getArticle } from "@/lib/data";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatCategory } from "@/lib/utils";
 import { ArrowLeft, BadgeCheck, BadgeInfo, Calendar, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-
-function formatCategory(category: string) {
-  return category
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
 
 async function ArticleData({ params }: { params: { param: string }} ) {
     const param = await params;
@@ -113,6 +107,9 @@ export default async function Page({ params }: { params: { param: string }} ) {
       </div>
       <Suspense fallback={<ArticleDataSkeleton />}>
         <ArticleData params={params}/>
+      </Suspense>
+      <Suspense>
+        <TrendingArticles />
       </Suspense>
     </main>
   );
