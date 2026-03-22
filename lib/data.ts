@@ -1,6 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache"
 
-const API_BASE_URL = process.env.API_BASE_URL;
+export const API_BASE_URL = process.env.API_BASE_URL;
 const X_VERCEL_PROTECTION_BYPASS = process.env.X_VERCEL_PROTECTION_BYPASS ?? "";
 
 type ArticleQueryParams = {
@@ -8,7 +8,7 @@ type ArticleQueryParams = {
     trending?: boolean;
 }
 
-const requestInit: RequestInit = {
+export const requestInit: RequestInit = {
     headers: {
         "x-vercel-protection-bypass": X_VERCEL_PROTECTION_BYPASS,
     },
@@ -43,7 +43,7 @@ export async function getBreakingNews() {
     return await res.json();
 }
 
-export async function searchArticles({ query, category }: { query?: string, category?: string}) {
+export async function searchArticles({ query, category, limit }: { query?: string, category?: string, limit?: number}) {
     "use cache"
     cacheLife("hours");
     cacheTag("articles-search")
@@ -53,6 +53,9 @@ export async function searchArticles({ query, category }: { query?: string, cate
     }
     if (category) {
         params.append("category", category);
+    }
+    if (limit) {
+        params.append("limit", limit.toString());
     }
     const res = await fetch(`${API_BASE_URL}/articles?${params}`, requestInit);
     if (!res.ok) {

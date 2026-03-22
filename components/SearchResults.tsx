@@ -55,7 +55,7 @@ function ArticleCard({ article }: { article: Article }) {
 }
 export async function SearchResults({ searchParams }: { searchParams: Promise<{ q?: string, category?: string }> }) {
     const { q, category = "" } = await searchParams;
-    const data = await searchArticles({ category, query: q });
+    const data = await searchArticles({ category, query: q, limit: 5 });
     const articles: Article[] = data.data;
     return articles.length > 0 ?
         <div>
