@@ -7,8 +7,8 @@ import { SearchResultsSkeleton } from "@/components/skeletons";
 import { SearchFormSkeleton } from "@/components/skeletons/SearchFormSkeleton";
 
 export const metadata: Metadata = {
-  title: "Next News Search Results",
-  description: "Find what you are looking for...",
+  title: "Search Articles | Vercel Daily",
+  description: "Search and discover the latest articles on Vercel Daily.",
 };
 
 interface SearchPageProps {
