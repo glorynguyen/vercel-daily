@@ -1,5 +1,5 @@
 import { Lock, BookOpen, Zap, Globe } from "lucide-react";
-import { SubcribeOnlyButton } from "./SubcribeOnlyButton";
+import SubscribeCTA from "./ui/SubscribeCTA";
 
 export default function Paywall() {
     return (
@@ -26,7 +26,7 @@ export default function Paywall() {
                         straight to your feed — no account required.
                     </p>
 
-                    <SubcribeOnlyButton/>
+                    <SubscribeCTA subscribed={false} variant="hero"/>
 
                     <p className="mt-4 text-xs text-muted-foreground/70">
                         No sign-up · No spam · Cancel anytime

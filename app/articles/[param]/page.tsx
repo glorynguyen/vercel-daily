@@ -1,7 +1,7 @@
 import ArticleContent from "@/components/ArticleContent";
 import Paywall from "@/components/Paywall";
 import { ArticleDataSkeleton } from "@/components/skeletons";
-import SubscribeButton from "@/components/SubscribeButton";
+import SubscribeButton from "@/components/ui/SubscribeCTA";
 import TrendingArticles from "@/components/TrendingArticles";
 import { getArticle } from "@/lib/data";
 import { getSubscriptionStatusFromCookie } from "@/lib/subscription";
