@@ -15,7 +15,7 @@ export const requestInit: RequestInit = {
 };
 
 export async function getArticles({ featured, trending }: ArticleQueryParams = {}) {
-    "use cache"
+    "use cache: remote"
     cacheLife("days");
     cacheTag("articles-list")
     const params = new URLSearchParams();
@@ -33,7 +33,7 @@ export async function getArticles({ featured, trending }: ArticleQueryParams = {
 }
 
 export async function getBreakingNews() {
-    "use cache"
+    "use cache: remote"
     cacheLife("days");
     cacheTag("breaking-news")
     const res = await fetch(`${API_BASE_URL}/breaking-news`, requestInit);
@@ -44,7 +44,7 @@ export async function getBreakingNews() {
 }
 
 export async function searchArticles({ query, category, limit }: { query?: string, category?: string, limit?: number}) {
-    "use cache"
+    "use cache: remote"
     cacheLife("hours");
     cacheTag("articles-search")
     const params = new URLSearchParams();
@@ -65,8 +65,8 @@ export async function searchArticles({ query, category, limit }: { query?: strin
 }
 
 export async function getArticle(id: string) {
-    "use cache"
-    cacheLife("hours");
+    "use cache: remote"
+    cacheLife("days");
     cacheTag(`article-${id}`)
     if (!id) {
         return null;
@@ -79,7 +79,7 @@ export async function getArticle(id: string) {
 }
 
 export async function getCategories() {
-  "use cache"
+  "use cache: remote"
     cacheLife("days");
     cacheTag("categories-list")
     const res = await fetch(`${API_BASE_URL}/categories`, requestInit);
